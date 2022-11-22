@@ -38,7 +38,10 @@ async function run() {
 
      app.get('/threeServices', async(req, res) =>{
       const query = {  };
-      const cursor = serviceCollection.find(query).limit(3);
+      const options = {
+        sort: { _id: -1},
+      };
+      const cursor = serviceCollection.find(query,options).limit(3);
       const services= await cursor.toArray();
       res.send(services); 
      });
@@ -51,6 +54,13 @@ async function run() {
         res.send(service);
       });
 
+      // Add Service api
+
+      app.post('/service', async(req,res)=>{
+        const review=req.body;
+        const result= await serviceCollection.insertOne(review);
+        res.send(result);
+      });
 
       // comment api
 
