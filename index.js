@@ -90,6 +90,19 @@ async function run() {
       res.send(services);
       });
 
+      app.patch('/reviews/:id',  async (req, res) => {
+        const id = req.params.id;
+        const filter ={_id: ObjectId(id)};
+        const user = req.body;
+        const updatedUser = {
+            $set: {
+                comment: user.comment
+            }
+        }
+        const result = await reviewCollection.updateOne(filter, updatedUser);
+        res.send(result);
+    })
+
       app.delete('/reviews/:id', async(req,res)=>{
         const id= req.params.id;
         const query={ _id: ObjectId(id) };
