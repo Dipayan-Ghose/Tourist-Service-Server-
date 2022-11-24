@@ -71,20 +71,46 @@ async function run() {
       });
 
       app.get('/reviews', async(req, res) =>{
-        const query = {  };
+          // const id= req.params.id;
+          const query = {  };
         const cursor = reviewCollection.find(query);
         const services= await cursor.toArray();
         res.send(services);
-
      });
 
-     app.get('/reviews', async(req, res) =>{
-      let query = {  };
-      if(req.query.email){
-        query={
-          email: req.query.email
-        }
-      }
+     app.get('/reviews/:id', async(req, res) =>{
+      const id= req.params.id;
+      const query = { _id: ObjectId(id)  };
+    const cursor = reviewCollection.find(query);
+    const services= await cursor.toArray();
+    res.send(services);
+ });
+
+ app.get('/review', async(req, res) =>{
+  const serviceId= req.query.serviceId;
+  console.log(serviceId);
+  const query = { serviceId };
+  
+  // if(req.query.email){
+  //   query={
+  //     email: req.query.email
+  //   }
+  // }
+  const cursor = reviewCollection.find(query);
+  const services= await cursor.toArray();
+  res.send(services);
+  });
+
+     app.get('/revieww', async(req, res) =>{
+      const email= req.query.email;
+      console.log(email);
+      let query = { email };
+      
+      // if(req.query.email){
+      //   query={
+      //     email: req.query.email
+      //   }
+      // }
       const cursor = reviewCollection.find(query);
       const services= await cursor.toArray();
       res.send(services);
